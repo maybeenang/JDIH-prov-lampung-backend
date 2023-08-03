@@ -1,5 +1,3 @@
-import { Sequelize } from "sequelize";
-
 export default (sequelize, Sequelize) => {
   const User = sequelize.define("user", {
     username: {
@@ -10,6 +8,14 @@ export default (sequelize, Sequelize) => {
     },
     email: {
       type: Sequelize.STRING,
+    },
+    apikey: {
+      type: Sequelize.STRING,
+      nullable: true,
+    },
+    refreshToken: {
+      type: Sequelize.STRING,
+      nullable: true,
     },
   });
 

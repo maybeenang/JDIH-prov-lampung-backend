@@ -6,28 +6,30 @@ dotenv.config();
 const User = db.user;
 
 const verifyToken = async (req, res, next) => {
-  let token = req.headers["x-access-token"] || req.session.token;
+  let token = req.headers["authorization"];
 
   if (!token) {
-    return res.status(403).send({ message: "No token provided!" });
+    return res.status(401).send({ message: "No token provided!" });
   }
 
+  token = token.split(" ")[1];
+
   try {
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+    jwt.verify(token, process.env.JWT_ACCESS, async (err, decoded) => {
       if (err) {
+        return res.status(403).send({ message: "Invalid Token" });
+      }
+
+      const userId = decoded.id;
+      let user = await User.findByPk(userId);
+      if (!user) {
         return res.status(401).send({ message: "Unauthorized!" });
       }
-      req.userId = decoded.id;
-      let user = await User.findByPk(req.userId);
-      if (!user) {
-        return res.status(404).send({ message: "User Not found." });
-      }
+      next();
     });
-
-    next();
   } catch (error) {
     console.error(error.message);
-    res.status(500).send({ message: error.message });
+    return res.status(500).send({ message: error.message });
   }
 };
 

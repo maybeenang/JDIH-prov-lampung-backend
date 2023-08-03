@@ -1,5 +1,3 @@
-import { Sequelize } from "sequelize";
-
 export default (sequelize, Sequelize) => {
   const Role = sequelize.define("role", {
     id: {
