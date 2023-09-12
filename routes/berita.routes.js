@@ -1,5 +1,12 @@
 import express from "express";
 import authJwt from "../middleware/authJwt.js";
+import {
+  createBerita,
+  deleteBerita,
+  getAllBerita,
+  getBeritaById,
+  updateBerita,
+} from "../controllers/berita.controller.js";
 
 const router = express.Router();
 
@@ -12,11 +19,10 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get("/", [authJwt.verifyToken], (req, res) => {
-  console.log(req.session);
-  return res.status(200).send({
-    message: "Welcome to the API!",
-  });
-});
+router.get("/", getAllBerita);
+router.get("/:id", getBeritaById);
+router.post("/", authJwt.verifyToken, createBerita);
+router.post("/:id", authJwt.verifyToken, updateBerita);
+router.delete("/:id", authJwt.verifyToken, deleteBerita);
 
 export default router;

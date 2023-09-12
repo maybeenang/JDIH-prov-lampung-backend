@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
-import db from "../models/index.js";
 import dotenv from "dotenv";
+import { PrismaClient } from "@prisma/client";
+
 dotenv.config();
 
-const User = db.user;
+const prisma = new PrismaClient();
 
 const verifyToken = async (req, res, next) => {
   let token = req.headers["authorization"];
@@ -15,13 +16,18 @@ const verifyToken = async (req, res, next) => {
   token = token.split(" ")[1];
 
   try {
-    jwt.verify(token, process.env.JWT_ACCESS, async (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
       if (err) {
         return res.status(403).send({ message: "Invalid Token" });
       }
 
       const userId = decoded.id;
-      let user = await User.findByPk(userId);
+      let user = await prisma.user.findFirst({
+        where: {
+          id: userId,
+        },
+      });
+      
       if (!user) {
         return res.status(401).send({ message: "Unauthorized!" });
       }

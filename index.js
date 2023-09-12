@@ -4,9 +4,7 @@ import cors from "cors";
 import cookieSession from "cookie-session";
 
 import beritaRoutes from "./routes/berita.routes.js";
-import userRoutes from "./routes/user.routes.js";
 import authRoutes from "./routes/auth.routes.js";
-import { dbInit } from "./models/index.js";
 
 dotenv.config();
 
@@ -36,9 +34,8 @@ app.use(
   })
 );
 
-app.use("/api/berita", beritaRoutes);
 app.use("/auth", authRoutes);
-app.use("/user", userRoutes);
+app.use("/v1/api/berita", beritaRoutes);
 
 app.use((req, res) => {
   res.status(404).send("<h1>404, Page Not Found!</h1>");
