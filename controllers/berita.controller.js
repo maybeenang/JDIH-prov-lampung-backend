@@ -5,11 +5,7 @@ const prisma = new PrismaClient();
 
 export const getAllBerita = async (req, res) => {
   try {
-    const berita = await prisma.berita.findMany({
-      include: {
-        user: true,
-      },
-    });
+    let berita = await prisma.berita.findMany({});
 
     if (!berita || berita.length === 0) {
       return res.status(404).send({ message: "Berita not found" });
@@ -29,9 +25,6 @@ export const getBeritaById = async (req, res) => {
       where: {
         id: id,
       },
-      include: {
-        user: true,
-      },
     });
 
     if (!berita) {
@@ -44,9 +37,6 @@ export const getBeritaById = async (req, res) => {
       },
       data: {
         dilihat: berita.dilihat + 1,
-      },
-      include: {
-        user: true,
       },
     });
 
