@@ -4,19 +4,18 @@ import cors from "cors";
 import cookieSession from "cookie-session";
 
 import beritaRoutes from "./routes/berita.routes.js";
+import artikelRoutes from "./routes/arikel.routes.js";
+import monografiRoutes from "./routes/monografi.routes.js";
+import galeryRoutes from "./routes/galery.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 
 dotenv.config();
 
 const app = express();
 
-// dbInit();
-
 app.use(
   cors({
     origin: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization", "x-access-token"],
     credentials: true,
   })
 );
@@ -34,14 +33,17 @@ app.use(
   })
 );
 
-app.use("/auth", authRoutes);
-app.use("/v1/api/berita", beritaRoutes);
+// app.use("/auth", authRoutes);
+app.use("/api/v1/berita", beritaRoutes);
+app.use("/api/v1/artikel", artikelRoutes);
+app.use("/api/v1/monografi", monografiRoutes);
+app.use("/api/v1/galery", galeryRoutes);
 
 app.use((req, res) => {
   res.status(404).send("<h1>404, Page Not Found!</h1>");
 });
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}, http://localhost:${PORT}`);
 });

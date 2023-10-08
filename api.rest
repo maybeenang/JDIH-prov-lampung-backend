@@ -1,0 +1,17 @@
+
+@base_url = http://localhost:3000/api/v1
+
+### get all berita
+GET {{base_url}}/berita
+
+### get all artikel
+GET {{base_url}}/artikel
+
+###
+GET {{base_url}}/monografi
+
+###
+GET {{base_url}}/galery
+
+
+

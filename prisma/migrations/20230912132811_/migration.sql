@@ -7,7 +7,7 @@
 
 */
 -- AlterTable
-ALTER TABLE `user` DROP COLUMN `name`,
+ALTER TABLE `User` DROP COLUMN `name`,
     ADD COLUMN `username` VARCHAR(191) NOT NULL;
 
 -- CreateIndex

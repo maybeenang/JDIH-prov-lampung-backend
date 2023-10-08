@@ -1,5 +1,5 @@
 import express from "express";
-import authJwt from "../middleware/authJwt.js";
+
 import {
   createBerita,
   deleteBerita,
@@ -10,19 +10,10 @@ import {
 
 const router = express.Router();
 
-router.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Access-Control-Allow-Credentials",
-    "x-access-token, Origin, Content-Type, Accept"
-  );
-  next();
-});
-
 router.get("/", getAllBerita);
 router.get("/:id", getBeritaById);
-router.post("/", authJwt.verifyToken, createBerita);
-router.post("/:id", authJwt.verifyToken, updateBerita);
-router.delete("/:id", authJwt.verifyToken, deleteBerita);
+router.post("/", createBerita);
+router.post("/:id", updateBerita);
+router.delete("/:id", deleteBerita);
 
 export default router;

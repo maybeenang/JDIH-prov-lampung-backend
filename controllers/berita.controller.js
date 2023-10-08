@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
@@ -48,43 +47,19 @@ export const getBeritaById = async (req, res) => {
 
 export const createBerita = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, image, tanggal, dilihat } = req.body;
 
-    if (!title || !content) {
-      return res
-        .status(400)
-        .send({ message: "Title and content cannot be empty" });
-    }
-
-    let token = req.headers["authorization"];
-    token = token.split(" ")[1];
-
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) {
-        return res.status(403).send({ message: "Invalid Token" });
-      }
-
-      const userId = decoded.id;
-      let user = await prisma.user.findFirst({
-        where: {
-          id: userId,
-        },
-      });
-
-      if (!user) {
-        return res.status(401).send({ message: "Unauthorized!" });
-      }
-
-      const berita = await prisma.berita.create({
-        data: {
-          title,
-          content,
-          userId,
-        },
-      });
-
-      return res.status(201).send(berita);
+    const berita = await prisma.berita.create({
+      data: {
+        title,
+        content,
+        image,
+        tanggal,
+        dilihat: parseInt(dilihat),
+      },
     });
+
+    return res.status(201).send(berita);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }

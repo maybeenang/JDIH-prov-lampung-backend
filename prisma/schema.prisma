@@ -14,7 +14,6 @@ model User{
   id String @id @default(uuid())
   username String @unique
   password String
-  berita Berita[]
   refreshToken String?  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -23,11 +22,38 @@ model User{
 model Berita{
   id String @id @default(uuid())
   title String
-  content String
+  content String @db.LongText
   image String @default("https://picsum.photos/200/300")
   dilihat Int @default(0)
-  userId String
-  user User @relation(fields: [userId], references: [id])
+  tanggal String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Monografi {
+  id String @id @default(uuid())
+  title String
+  image String @default("https://picsum.photos/200/300")
+  url String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Article {
+  id String @id @default(uuid())
+  title String
+  content String
+  tanggal String
+  documentUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Galery {
+  id String @id @default(uuid())
+  title String
+  videoUrl String
+  image String @default("https://picsum.photos/200/300")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
