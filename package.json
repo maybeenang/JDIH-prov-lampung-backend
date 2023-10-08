@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "scrape-berita": "node ./helpers/scrapersBerita.js",
     "scrape-monografi": "node ./helpers/scrapersMonografi.js",
     "scrape-artikel": "node ./helpers/scrapersArtikel.js",
